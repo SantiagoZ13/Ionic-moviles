@@ -1,0 +1,7 @@
+{
+  "name": "mi-primer-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
