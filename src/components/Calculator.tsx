@@ -1,58 +1,225 @@
 import "./Calculator.css";
-import React from "react";
-import {
-  IonCard,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonCardContent,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
-} from "@ionic/react";
+import React, { useState } from "react";
+import { IonCard, IonGrid, IonRow, IonCol } from "@ionic/react";
 
 interface ContainerProps {}
 
 const Calculator = () => {
+  const [input, setInput] = useState("0");
+  const [operator, setOperator] = useState<string | null>(null);
+  const [previousValue, setPreviousValue] = useState<string | null>(null);
+
+  const handleNumberClick = (value: string) => {
+    setInput((prev) => (prev === "0" ? value : prev + value));
+  };
+
+  const handleOperatorClick = (op: string) => {
+    setOperator(op);
+    setPreviousValue(input);
+    setInput("0");
+  };
+
+  const calculateResult = () => {
+    if (operator && previousValue) {
+      const prev = parseFloat(previousValue);
+      const current = parseFloat(input);
+      let result = 0;
+      switch (operator) {
+        case "+":
+          result = prev + current;
+          break;
+        case "-":
+          result = prev - current;
+          break;
+        case "x":
+          result = prev * current;
+          break;
+        case "/":
+          result = current !== 0 ? prev / current : 0;
+          break;
+        default:
+          return;
+      }
+      setInput(result.toString());
+      setOperator(null);
+      setPreviousValue(null);
+    }
+  };
+
+  const handleClear = () => {
+    setInput("0");
+    setOperator(null);
+    setPreviousValue(null);
+  };
   return (
-    <IonCard className="IonCard">
-      <img
-        alt="Silhouette of mountains"
-        src="https://wallpapers.com/images/hd/radiant-light-bulb-8vg12xf4p0gou9np.jpg"
-      />
-      <IonGrid fixed={true}>
-        <IonRow class="ion-justify-content-between">
-          <IonCol class="IonCol light">AC</IonCol>
-          <IonCol class="IonCol light">+/-</IonCol>
-          <IonCol class="IonCol light">%</IonCol>
-          <IonCol class="IonCol dark">+</IonCol>
-        </IonRow>
-        <IonRow class="ion-justify-content-between">
-          <IonCol class="IonCol">7</IonCol>
-          <IonCol class="IonCol">8</IonCol>
-          <IonCol class="IonCol">9</IonCol>
-          <IonCol class="IonCol dark">x</IonCol>
-        </IonRow>
-        <IonRow class="ion-justify-content-between">
-          <IonCol class="IonCol">4</IonCol>
-          <IonCol class="IonCol">5</IonCol>
-          <IonCol class="IonCol">6</IonCol>
-          <IonCol class="IonCol dark">-</IonCol>
-        </IonRow>
-        <IonRow class="ion-justify-content-between">
-          <IonCol class="IonCol">1</IonCol>
-          <IonCol class="IonCol">2</IonCol>
-          <IonCol class="IonCol">3</IonCol>
-          <IonCol class="IonCol dark">+</IonCol>
-        </IonRow>
-        <IonRow class="ion-justify-content-between">
-          <IonCol class="IonCol">0</IonCol>
-          <IonCol class="IonCol">,</IonCol>
-          <IonCol class="IonCol">.</IonCol>
-          <IonCol class="IonCol dark">=</IonCol>
-        </IonRow>
-      </IonGrid>
-    </IonCard>
+    <div className="main-container">
+      <IonCard className="IonCard">
+        <div className="calculator-screen">{input}</div>
+        <IonGrid fixed={true}>
+          <IonRow class="ion-justify-content-between">
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleClear()}
+                className="calculator-key light"
+              >
+                AC
+              </button>
+            </IonCol>
+            <IonCol class="IonCol">
+              <button className="calculator-key light">+/-</button>
+            </IonCol>
+            <IonCol class="IonCol">
+              <button className="calculator-key light">%</button>
+            </IonCol>
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleOperatorClick("/")}
+                className="calculator-key dark"
+              >
+                /
+              </button>
+            </IonCol>
+          </IonRow>
+          <IonRow class="ion-justify-content-between">
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleNumberClick("7")}
+                className="calculator-key"
+              >
+                7
+              </button>
+            </IonCol>
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleNumberClick("8")}
+                className="calculator-key"
+              >
+                8
+              </button>
+            </IonCol>
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleNumberClick("9")}
+                className="calculator-key"
+              >
+                9
+              </button>
+            </IonCol>
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleOperatorClick("x")}
+                className="calculator-key dark"
+              >
+                x
+              </button>
+            </IonCol>
+          </IonRow>
+
+          <IonRow class="ion-justify-content-between">
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleNumberClick("4")}
+                className="calculator-key"
+              >
+                4
+              </button>
+            </IonCol>
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleNumberClick("5")}
+                className="calculator-key"
+              >
+                5
+              </button>
+            </IonCol>
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleNumberClick("6")}
+                className="calculator-key"
+              >
+                6
+              </button>
+            </IonCol>
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleOperatorClick("-")}
+                className="calculator-key dark"
+              >
+                -
+              </button>
+            </IonCol>
+          </IonRow>
+          <IonRow class="ion-justify-content-between">
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleNumberClick("1")}
+                className="calculator-key"
+              >
+                1
+              </button>
+            </IonCol>
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleNumberClick("2")}
+                className="calculator-key"
+              >
+                2
+              </button>
+            </IonCol>
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleNumberClick("3")}
+                className="calculator-key"
+              >
+                3
+              </button>
+            </IonCol>
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleOperatorClick("+")}
+                className="calculator-key dark"
+              >
+                +
+              </button>
+            </IonCol>
+          </IonRow>
+          <IonRow class="ion-justify-content-between">
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleNumberClick("0")}
+                className="calculator-key"
+              >
+                0
+              </button>
+            </IonCol>
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleNumberClick(",")}
+                className="calculator-key"
+              >
+                ,
+              </button>
+            </IonCol>
+            <IonCol class="IonCol">
+              <button
+                onClick={() => handleNumberClick(".")}
+                className="calculator-key"
+              >
+                .
+              </button>
+            </IonCol>
+            <IonCol class="IonCol">
+              <button
+                onClick={() => calculateResult()}
+                className="calculator-key dark"
+              >
+                =
+              </button>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
+      </IonCard>
+    </div>
   );
 };
 export default Calculator;
