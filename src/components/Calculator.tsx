@@ -285,7 +285,9 @@ const Calculator = () => {
               <IonCol>
                 <button
                   onClick={() => setRadians(!radians)}
-                  className="calculator-key"
+                  className={`calculator-key dark ${
+                    radians ? "radians-mode" : "degrees-mode"
+                  }`}
                 >
                   °
                 </button>

@@ -13,6 +13,7 @@
   max-width: 80px;
   min-width: 40px;
 }
+
 .calculator-screen {
   width: 96%;
   height: 160px;
@@ -58,4 +59,12 @@
 }
 .hidden {
   display: none;
+}
+.radians-mode {
+  color: white;
+  background-color: rgb(12, 63, 118);
+}
+.degrees-mode {
+  color: white;
+  background-color: #03aec5;
 }
