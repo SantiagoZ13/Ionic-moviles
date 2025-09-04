@@ -56,3 +56,6 @@
   color: rgb(220, 220, 220);
   background-color: rgb(3, 38, 68);
 }
+.hidden {
+  display: none;
+}
